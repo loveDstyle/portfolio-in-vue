@@ -41,19 +41,22 @@
         <img style="height: 50px;width: 50px;border-radius: 25px" src="/public/qqq.png" alt="SadRedditor" v-if="offsetTop>244" v-text="title">
       </v-fab-transition>
       <v-spacer class="hidden-sm-and-down"></v-spacer>
-      <v-btn flat class="hidden-sm-and-down">
-        HOME
-      </v-btn>
-      <v-btn flat class="hidden-sm-and-down">
-        RESUME
-      </v-btn>
-      <v-btn flat class="hidden-sm-and-down">
-        TODOs
-      </v-btn>
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn flat class="hidden-sm-and-down">
+          HOME
+        </v-btn>
+        <v-btn flat class="hidden-sm-and-down">
+          RESUME
+        </v-btn>
+        <v-btn flat class="hidden-sm-and-down">
+          TODOs
+        </v-btn>
 
         <v-btn href="https://www.baidu.com" target="_blank" flat class="hidden-sm-and-down">
           GITHUB
         </v-btn>
+      </v-toolbar-items>
+
 
       <v-spacer></v-spacer>
       <!--<v-btn icon @click.stop="rightDrawer = !rightDrawer">
