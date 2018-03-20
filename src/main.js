@@ -5,6 +5,7 @@ import Todos from './components/Todos.vue';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
 import 'vuetify/dist/vuetify.css';
+import '../public/webfonts/fontawesome-all.min.css';
 const routes = [
     { path: '/', redirect: '/home' },
     { path: '/home', component: Home },

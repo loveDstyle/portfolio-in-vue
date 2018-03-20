@@ -1,12 +1,15 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
-    filename: 'build.js'
+    path: path.resolve(__dirname, './dist/assets'),
+    publicPath: '/assets/',
+    filename: 'build.[hash].js'
   },
   resolve: {
     extensions: ['.js', '.vue'],
@@ -37,7 +40,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpg|gif|svg|ttf|eot|woff|woff2)$/,
         loader: 'file-loader',
         options: {
           objectAssign: 'Object.assign'
@@ -45,16 +48,29 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ['style-loader', 'css-loader']
+          use: ExtractTextPlugin.extract({
+              fallback: "style-loader",
+              use: "css-loader"
+          })
       },
       {
-        test: /\.styl$/,
-        loader: ['style-loader', 'css-loader', 'stylus-loader']
-      }
+            test: /\.styl$/,
+            loader: ['style-loader', 'css-loader', 'stylus-loader']
+        }
     ]
   },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new WebpackCleanupPlugin(),
+        new ExtractTextPlugin("styles.[hash].css"),
+        new HtmlWebpackPlugin({
+            hash: true,
+            title: 'wuhao\'s github page' ,
+            template: './index.html',
+            baseUrl: '/',
+            favicon: './public/qqq.png',
+            filename: '../index.html' //relative to root of the application
+        })
     ],
   devServer: {
     historyApiFallback: true,
@@ -76,7 +92,7 @@ if (process.env.NODE_ENV === 'production') {
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
+      sourceMap: false,
       compress: {
         warnings: false
       }
