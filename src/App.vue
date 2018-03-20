@@ -99,6 +99,7 @@
 </template>
 
 <script>
+  import throttle from 'lodash/throttle';
   export default {
       data () {
       return {
@@ -118,11 +119,12 @@
       }
     },
     methods: {
-        onScroll (e) {
-            this.offsetTop = window.pageYOffset || document.documentElement.scrollTop
-        },
+        onScroll: throttle((function () {
+            this.offsetTop = window.pageYOffset || document.documentElement.scrollTop;
+        }), 150),
         scrollToTop() {
-            window.scrollTo(0,0);
+            // window.scrollTo(0,0);
+            document.documentElement.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"})
         }
     }
   }
