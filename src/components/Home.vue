@@ -35,7 +35,7 @@
             <div>
               <v-tabs right>
                 <v-tab v-for="n in 3" :key="n">
-                  Item {{ n }}
+                  tets {{ n }}
                 </v-tab>
               </v-tabs>
             </div>

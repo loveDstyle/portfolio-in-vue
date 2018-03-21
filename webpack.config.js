@@ -3,13 +3,14 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './dist/assets'),
-    publicPath: '/assets/',
-    filename: 'build.[hash].js'
+    path: path.resolve(__dirname, './dist'),
+    publicPath: '/',
+    filename: 'build.js'
   },
   resolve: {
     extensions: ['.js', '.vue'],
@@ -40,10 +41,11 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(png|jpg|gif|svg|ttf|eot|woff|woff2)$/,
-        loader: 'file-loader',
-        options: {
-          objectAssign: 'Object.assign'
+        "test": /\.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)$/,
+        "loader": "file-loader",
+        "options": {
+          "name": "[name].[hash:20].[ext]",
+          "limit": 10000
         }
       },
       {
@@ -64,17 +66,26 @@ module.exports = {
         new WebpackCleanupPlugin(),
         new ExtractTextPlugin("styles.[hash].css"),
         new HtmlWebpackPlugin({
-            hash: true,
+            hash: false,
             title: 'wuhao\'s github page' ,
             template: './index.html',
-            baseUrl: '/',
             favicon: './public/qqq.png',
-            filename: '../index.html' //relative to root of the application
-        })
+            filename: './index.html' //relative to output path
+        }),
+      new CopyWebpackPlugin([
+        {
+          "to": "public",
+          "from": "public",
+          "ignore": 'webfonts/*.*'
+        }
+      ], {
+        "debug": "warning"
+      }),
     ],
   devServer: {
     historyApiFallback: true,
-    noInfo: true
+    hot: true,
+    publicPath: '/'
   },
   performance: {
     hints: false
